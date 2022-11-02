@@ -49,17 +49,17 @@ process mapping {
         zcat "${ref}" | tar xvf - -C genome
         genome_file=`ls ./genome/*.bwt`
         genome_file="\${genome_file%.bwt}"
-        bwa mem -K 100000000 -t 16 -M \
+        bwa mem -K 100000000 -t 30 -M \
             \${genome_file} \
             ${fastqR1} ${fastqR2} \
             -R "@RG\\tID:None\\tPL:None\\tPU:None\\tLB:None\\tSM:${sampleID}" | \
-            samtools sort --threads 16 -m 2G - > ${sampleID}.bam
+            samtools sort --threads 30 -m 2G - > ${sampleID}.bam
         samtools index ${sampleID}.bam
         """
 }
 
 process markdup {
-    machineType "mem3_ssd3_x8"
+    machineType "mem3_ssd3_x24"
     container "quay.io/biocontainers/gatk4:4.2.0.0--0"
     publishDir "${params.outDir}"
     input:
@@ -70,7 +70,7 @@ process markdup {
         path "./${sampleID}.md.bam.bai", emit: bai_md
     script:
         """
-        gatk --java-options "-Xmx40g -Xms6000m" \
+        gatk --java-options "-Xmx190g -Xms5g" \
             MarkDuplicates \
                 --INPUT ${bam} \
                 --METRICS_FILE ${sampleID}.md.bam.metrics \
