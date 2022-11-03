@@ -59,7 +59,7 @@ process mapping {
 }
 
 process markdup {
-    machineType "mem3_ssd3_x96"
+    machineType "mem1_ssd2_v2_x16"
     container "quay.io/biocontainers/gatk4:4.2.0.0--0"
     publishDir "${params.outDir}"
     input:
@@ -70,8 +70,9 @@ process markdup {
         path "./${sampleID}.md.bam.bai", emit: bai_md
     script:
         """
-        gatk --java-options "-Xmx750g -Xms5g" \
+        gatk --java-options "-Xmx25g -Xms5g" \
             MarkDuplicates \
+                --TMP_DIR ./temp_folder
                 --INPUT ${bam} \
                 --METRICS_FILE ${sampleID}.md.bam.metrics \
                 --TMP_DIR . \
