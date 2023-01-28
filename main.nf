@@ -72,7 +72,6 @@ process markdup {
         """
         gatk --java-options "-Xmx25g -Xms5g" \
             MarkDuplicates \
-                --TMP_DIR ./temp_folder
                 --INPUT ${bam} \
                 --METRICS_FILE ${sampleID}.md.bam.metrics \
                 --TMP_DIR . \
