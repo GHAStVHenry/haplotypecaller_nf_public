@@ -33,7 +33,7 @@ workflow {
 
 process mapping {
     machineType "mem2_ssd1_v2_x32"
-    container "ghhenry/bwakit:0.7.17.dev1--hdfd78af_1"
+    container "557068274766.dkr.ecr.us-east-1.amazonaws.com/bwakit:0.7.17.dev1--hdfd78af_1"
     publishDir "${params.outDir}"
     input:
         val sampleID
